@@ -4,6 +4,7 @@
 \usepackage[spanish]{babel}
 \usepackage{amsmath,amssymb}
 \usepackage{url}
+\usepackage{graphicx}
 \usepackage[left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm]{geometry}
 \setlength{\parskip}{0.8em}
 \setlength{\parindent}{0pt}
@@ -408,6 +409,97 @@ conjunto de subcanales independientes. Esto permite diseñar algoritmos de trans
 asignen más potencia a los modos con mayor autovalor.
 
 
+\newpage
+\medtitle{2.6 Fundamentos algebraicos del cifrado y criptoanálisis}
+
+El sistema Bluetooth implementa mecanismos criptográficos que, en su nivel más fundamental,
+no son más que aplicaciones avanzadas de transformaciones matemáticas sobre espacios
+vectoriales finitos. En este apartado exploraremos cómo se utiliza el álgebra para cifrar la
+información y cómo las vulnerabilidades matemáticas de estos modelos pueden ser explotadas
+mediante técnicas de criptoanálisis.
+
+\smalltitle{2.6.1. El cifrado E0 y la generación de secuencias pseudoaleatorias}
+
+El sistema Bluetooth garantiza la confidencialidad de la información mediante protocolos
+criptográficos. En el estándar Bluetooth clásico, la encriptación de los datos se realiza a
+través de un cifrado de flujo (\textit{stream cipher}) denominado E0.
+
+El núcleo matemático de este cifrado no es más que una extensión de los conceptos de
+espacios vectoriales sobre campos finitos $\mathbb{F}_2$ que hemos visto en apartados anteriores. El
+algoritmo genera una secuencia de bits pseudoaleatoria (\textit{keystream}) que se suma (mediante
+la operación XOR, equivalente a la suma vectorial en $\mathbb{F}_2$) con el mensaje original para
+cifrarlo.
+
+Para generar esta secuencia, el E0 utiliza cuatro Registros de Desplazamiento con
+Retroalimentación Lineal (LFSRs) de diferentes longitudes. En un instante $t$, las salidas de
+estos cuatro registros forman un vector
+\centerline{$\mathbf{x}_t = (x_t^1,\, x_t^2,\, x_t^3,\, x_t^4)$}
+donde cada $x_t^i \in \{0,1\}$. El estado inicial conjunto de estos cuatro registros (128 bits en
+total) constituye la clave secreta de la transmisión.
+
+\smalltitle{2.6.2. Modelización matemática de la máquina de estados (SCLB)}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{image.png}
+\end{figure}
+
+Los bits del vector $\mathbf{x}_t$ no se usan directamente, sino que se introducen en una máquina de
+estados finitos denominada \textit{Summation Combiner Logic and Blend} (SCLB). Esta máquina posee
+4 bits de memoria organizados en el estado actual $\mathbf{c}_t = (c_t^1, c_t^0)$ y el estado anterior
+$\mathbf{c}_{t-1} = (c_{t-1}^1, c_{t-1}^0)$.
+
+El funcionamiento matemático del SCLB se define mediante las siguientes operaciones:
+
+\textbf{1. Suma aritmética (El componente no lineal):} El sistema calcula la suma en los números
+enteros (no en módulo 2) de las salidas de los registros:
+
+\centerline{$y_t = \displaystyle\sum_{i=1}^{4} x_t^i$}
+
+Como estamos sumando 4 bits, el resultado puede ser $y_t \in \{0, 1, 2, 3, 4\}$.
+
+\textbf{2. Generación del bit de cifrado (Operación lineal en $\mathbb{F}_2$):} El bit de salida $z_t$, que
+formará parte del \textit{keystream} definitivo, se calcula mediante la suma módulo 2 (XOR) de
+los bits de los registros y el bit menos significativo del estado actual:
+
+\centerline{$z_t = x_t^1 \oplus x_t^2 \oplus x_t^3 \oplus x_t^4 \oplus c_t^0$}
+
+\textbf{3. Actualización del estado (Mezcla y bijecciones lineales):} Para calcular el siguiente
+estado, el sistema determina un valor intermedio $s_{t+1}$ que actúa como un acarreo
+(\textit{carry}), basándose en la suma entera anterior:
+
+\centerline{$s_{t+1} = \begin{bmatrix} s_{t+1}^0 & s_{t+1}^1 \end{bmatrix} = \left\lfloor \dfrac{y_t + c_t}{2} \right\rfloor \in \{0, 1, 2, 3\}$}
+
+Finalmente, el nuevo estado $\mathbf{c}_{t+1}$ se obtiene aplicando transformaciones algebraicas:
+
+\centerline{$\mathbf{c}_{t+1} = \begin{bmatrix} c_{t+1}^0 & c_{t+1}^1 \end{bmatrix} = s_{t+1} \oplus T_1[\mathbf{c}_t] \oplus T_2[\mathbf{c}_{t-1}]$}
+
+Es fundamental destacar que $T_1$ y $T_2$ son bijecciones lineales sobre el campo de Galois
+$\mathrm{GF}(4)$ (equivalente a nuestro espacio $\mathbb{F}_2^2$). Al ser transformaciones lineales, en la
+implementación real se construyen mediante simples operaciones matriciales (puertas lógicas
+XOR), conectando de nuevo este sistema criptográfico con los fundamentos del álgebra lineal.
+
+\smalltitle{2.6.3. Criptoanálisis como un problema de sistemas de ecuaciones lineales}
+
+El objetivo de un ataque criptográfico contra este sistema es recuperar el vector inicial de
+128 bits. Investigaciones recientes demuestran que vulnerar esta seguridad se reduce a un
+problema algebraico a gran escala.
+
+Si un atacante logra interceptar el bit $z_t$, puede usar la ecuación de generación del bit de
+cifrado para plantear hipótesis sobre el estado $c_t^0$. Aislando las incógnitas (los bits de
+los registros), la ecuación queda expresada como una ecuación lineal booleana clásica:
+
+\centerline{$x_t^1 \oplus x_t^2 \oplus x_t^3 \oplus x_t^4 = c_t^0 \oplus z_t$}
+
+El ataque consiste en aplicar un proceso de iteración hacia atrás (\textit{backtracking}). Gracias a
+que el valor intermedio $y_t$ depende solo de la suma entera y no del valor individual de cada
+bit, el atacante puede descartar ramas enteras de posibilidades. A medida que avanza, va
+recolectando ecuaciones lineales de la forma descrita arriba.
+
+Cuando el atacante logra formar un sistema de 128 ecuaciones lineales booleanas linealmente
+independientes, puede resolverlo utilizando matrices y operaciones de álgebra lineal estándar.
+La solución a ese enorme sistema matricial revelará el vector inicial de los registros, rompiendo
+por completo la clave secreta del Bluetooth.
 
 
 
