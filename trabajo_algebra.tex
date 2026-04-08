@@ -189,13 +189,13 @@ transmitirse a través del aire. Este proceso se conoce como modulación. Blueto
 implementación real usa procesamiento digital, se puede modelizar mediante transformaciones
 lineales.
 
-                                             \centerline{$s = Mx$}
+                                             \centerline{$s = Ax$}
 
 Donde:
 
 $x$ es el vector de datos binarios,
 
-$M$ es una matriz que representa el sistema de modulación,
+$A$ es una matriz que representa el sistema de modulación,
 
 $s$ es el vector de parámetros de la señal transmitida
 
@@ -310,11 +310,11 @@ equilibrio entre ambos factores para mantener el canal eficiente y ser capaces d
 \smalltitle{2.4.1 Representación del canal como transformación lineal}
 El proceso de transmisión de señal se describe mediante la ecuación
 
-\centerline{$y=Hx+n$}
+\centerline{$y=Bx+n$}
 
 Siendo:
 
-$H$ la matriz del canal, que representa cómo el medio de transmisión transforma la señal
+$B$ la matriz del canal, que representa cómo el medio de transmisión transforma la señal
 
 $x$ es el vector transmitido, con la información ya codificada
 
@@ -323,7 +323,7 @@ $y$ es el vector recibido
 $n$ es el vector de ruido añadido durante la transmisión
 
 En la banda de las ondas de radio 2.4GHz, el entorno provoca desvanecimientos, interferencias o
-multitrayectoria, fenómenos que se modelan dentro de $H$. Cada elemento de $H$ describe cómo una
+multitrayectoria, fenómenos que se modelan dentro de $B$. Cada elemento de $B$ describe cómo una
 componente de la señal afecta a cada componente de la señal recibida. En general, captura las
 características del canal inalámbrico en un instante determinado
 
@@ -333,16 +333,16 @@ características del canal inalámbrico en un instante determinado
 
 \newpage
 \smalltitle{2.4.2 Interpretación del ruido como perturbación vectorial}
-Además de la transformación producida por el canal ($H$), está el ruido ($n$), que se añade al producto
-de $Hx$. Por eso, aun conociendo perfectamente el canal $H$, $y$ nunca coincidiría exactamente con
-$Hx$. Se asume que el ruido es un vector aleatorio que sigue una distribución normal, lo que se
+Además de la transformación producida por el canal ($B$), está el ruido ($n$), que se añade al producto
+de $Bx$. Por eso, aun conociendo perfectamente el canal $B$, $y$ nunca coincidiría exactamente con
+$Bx$. Se asume que el ruido es un vector aleatorio que sigue una distribución normal, lo que se
 conoce como ruido gaussiano aditivo o White Gaussian Noise (AWGN).
 
 El AWGN está formado por tres propiedades fundamentales:
 
    1. Additive (Aditivo)
       Que el ruido sea aditivo significa que se suma directamente a la señal transmitida. Eso
-      significa que $y-Hx=n$ \\
+      significa que $y-Bx=n$ \\
 
    2. Gaussian (Gaussiano)
       El ruido se denomina gaussiano porque cada componente de $n$ sigue una distribución
@@ -356,14 +356,14 @@ El AWGN está formado por tres propiedades fundamentales:
       implica que el ruido no tiene dirección preferente en el espacio vectorial.
 
 Este modelo nos permite plantear el problema como una optimización algebraica, donde hay que
-encontrar el vector cuya transformación $Hx$ esté más cerca del vector $y$ en norma euclídea.
+encontrar el vector cuya transformación $Bx$ esté más cerca del vector $y$ en norma euclídea.
 
 \smalltitle{2.4.3 Condiciones de recuperabilidad de la señal}
 La posibilidad de recuperar correctamente la señal transmitida depende en gran medida de las
-propiedades algebraicas de la matriz del canal. El rango de la matriz $H$ indica cuánta información
+propiedades algebraicas de la matriz del canal. El rango de la matriz $B$ indica cuánta información
 del vector original $x$ se conserva tras la transmisión. Si la matriz tiene rango completo, la
 transformación conserva toda la información del vector transmitido. En ese caso y en ausencia
-total de ruido, sería posible recuperar $x$ calculando la inversa: \centerline{$x=H^{-1}y$}
+total de ruido, sería posible recuperar $x$ calculando la inversa: \centerline{$x=B^{-1}y$}
 
 
 
@@ -379,13 +379,13 @@ se llama autovalor. $Av=\lambda v$, donde $A$ es una matriz cuadrada, $v$ es el 
 el autovalor.
 
 \smalltitle{2.5.2 Interpretación física en sistemas de comunicación}
-Cuando se modela un canal inalámbrico mediante matrices, los autovectores de $H$ representan
+Cuando se modela un canal inalámbrico mediante matrices, los autovectores de $B$ representan
 direcciones privilegiadas de propagación de la señal. Son combinaciones específicas de señales
 que atraviesan el canal sin cambiar su estructura direccional.
 
 En entornos con múltiples trayectorias de propagación, el canal puede descomponerse en varios
 modos independientes de transmisión. Cada uno de estos modos corresponde a un autovector de
-$H$, mientras que el autovalor indica cuánto se amplifica la señal en esa dirección.
+$B$, mientras que el autovalor indica cuánto se amplifica la señal en esa dirección.
 
 \smalltitle{2.5.3 Autovalores y la estabilidad de la transmisión}
 Los autovalores ofrecen información directa sobre la estabilidad del canal de transmisión. Si el
@@ -492,11 +492,11 @@ Durante la transmisión, la señal atraviesa un canal inalámbrico que introduce
 debido a interferencias, ruido y otros fenómenos físicos. Este proceso puede modelizarse
 mediante la ecuación:
 
-\centerline{$r = Hs + n$}
+\centerline{$r = Bs + n$}
 
 Donde:
 
-$H\in\mathbb{R}^{3\times 3}$ es la matriz del canal,
+$B\in\mathbb{R}^{3\times 3}$ es la matriz del canal,
 
 $s$ es la señal transmitida,
 
@@ -506,7 +506,7 @@ $r$ es la señal recibida.
 
 En este ejemplo, se considera un canal sin distorsión estructural, por lo que:
 
-\centerline{$H=I$}
+\centerline{$B=I$}
 
 Sin embargo, se introduce un vector de ruido:
 
