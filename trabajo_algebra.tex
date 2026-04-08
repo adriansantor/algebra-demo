@@ -145,7 +145,7 @@ representarse como un vector en el espacio:
 
 \centerline{$s=(s_1,s_2,s_3,\ldots,s_n)\in\mathbb{R}^n$}
 
-Cada componente s\_i representa la amplitud o fase de la señal en un instante concreto. De esta
+Cada componente $s_i$ representa la amplitud o fase de la señal en un instante concreto. De esta
 forma, el conjunto de todas las posibles señales transmitidas puede interpretarse como un espacio
 vectorial de señales.
 
@@ -180,9 +180,9 @@ Una matriz es una estructura rectangular de elementos pertenecientes a un cuerpo
 Formalmente, una matriz se define como: $A\in\mathbb{R}^{m\times n}$.
 
 Una transformación lineal entre espacios vectoriales puede representarse mediante una matriz.
-Siendo A una matriz mxn, la transformación de un vector de datos se expresa como y = Ax ,
-donde 'x' es el vector de datos original, 'A' es la matriz de transformación, e 'y' es el vector
-obtenido mediante la combinación lineal de elementos de x. Este tipo de operación se usa en
+Siendo $A$ una matriz $m\times n$, la transformación de un vector de datos se expresa como $y = Ax$,
+donde '$x$' es el vector de datos original, '$A$' es la matriz de transformación, e '$y$' es el vector
+obtenido mediante la combinación lineal de elementos de $x$. Este tipo de operación se usa en
 etapas como filtros digitales, transformaciones de bases o procesos de codificación
 
 \smalltitle{2.2.2 Matrices en los procesos de modulación y demodulación}
@@ -196,11 +196,11 @@ lineales.
 
 Donde:
 
-x es el vector de datos binarios,
+$x$ es el vector de datos binarios,
 
-M es una matriz que representa el sistema de modulación,
+$M$ es una matriz que representa el sistema de modulación,
 
-s es el vector de parámetros de la señal transmitida
+$s$ es el vector de parámetros de la señal transmitida
 
 En el receptor ocurre el proceso inverso, llamado demodulación. Los algoritmos de demodulación
 pueden expresarse mediante sistemas matriciales o problemas de estimación lineal. Habiendo
@@ -208,8 +208,8 @@ ruido, el sistema recibido puede modelizarse como:
 
 \centerline{$r=Ax+n$}
 
-Donde n representa el ruido del canal de transmisión. El objetivo del receptor es estimar el vector
-'x' original a partir del recibido 'r' (el vector 'y' del apartado anterior). Esto implica resolver
+Donde $n$ representa el ruido del canal de transmisión. El objetivo del receptor es estimar el vector
+'$x$' original a partir del recibido '$r$' (el vector '$y$' del apartado anterior). Esto implica resolver
 sistemas lineales o aplicar métodos de optimización.
 
 
@@ -221,18 +221,18 @@ sistemas lineales o aplicar métodos de optimización.
 Durante la transmisión inalámbrica se producen errores. Para corregirlos se implementan códigos
 de corrección, que permiten detectarlos, y a veces revertirlos. Muchos de estos códigos son lineales,
 que se describen mediante matrices. En este contexto, el proceso de codificación se realiza
-utilizando una matriz generadora G. El objetivo es transformar el vector binario en una palabra
+utilizando una matriz generadora $G$. El objetivo es transformar el vector binario en una palabra
 codificada:
 
 \centerline{$c=Gm$}
 
 Donde:
 
-m es el vector de información,
+$m$ es el vector de información,
 
-G es la matriz generadora,
+$G$ es la matriz generadora,
 
-C es el vector codificado que se transmitirá
+$C$ es el vector codificado que se transmitirá
 
 La matriz generadora introduce redundancia controlada en el mensaje. Esto significa que se añaden
 bits adicionales que no añaden nada nuevo, pero permiten detectar inconsistencias. Este
@@ -240,11 +240,11 @@ mecanismo es esencial en el Bluetooth porque el canal radioeléctrico es especia
 a interferencias.
 
 \smalltitle{2.2.4 Matrices de control de paridad}
-Además de la matriz G, los códigos utilizan una matriz de control, H. Si 'c' es una palabra válida
+Además de la matriz G, los códigos utilizan una matriz de control, $H$. Si '$c$' es una palabra válida
    generada por el código, debe cumplir $Hc=0$, donde el vector 0 indica que no hay
                                         inconsistencias.
 
-Cuando el receptor Bluetooth recibe un vector 'r', calcula Hr. Si el resultado es distinto de 0, se
+Cuando el receptor Bluetooth recibe un vector '$r$', calcula $Hr$. Si el resultado es distinto de 0, se
 denomina síndrome del error, y proporciona información sobre la posición del posible error en el
 vector recibido. En algunos códigos, hasta permite corregir automáticamente el bit incorrecto.
 
@@ -264,7 +264,7 @@ Un subespacio vectorial es un subconjunto de un espacio vectorial que cumple las
 necesarias para ser considerado también un espacio. Si V es un espacio vectorial sobre un cuerpo
 $F$, un subconjunto $W\subseteq V$ es subespacio si cumple:
 
-   1. El vector nulo pertenece a W\\
+   1. El vector nulo pertenece a $W$\\
    2. Si $u,v\in W$, entonces $u+v\in W$\\
    3. Si $u\in W$ y $a\in F$, entonces $au\in W$
 
@@ -275,7 +275,7 @@ forman subespacios que representan los códigos usados por el sistema de comunic
 \smalltitle{2.3.2 Subespacios de códigos válidos}
 Como se ha hablado en el apartado 2.2.3, se aplican códigos de corrección de errores que añaden
 redundancia a los datos originales. El conjunto de todos los mensajes codificados puede
-interpretarse como un subespacio vectorial de todas las posibles cadenas de bits. La 'y' del
+interpretarse como un subespacio vectorial de todas las posibles cadenas de bits. La '$y$' del
 apartado anteriormente mencionado pertenecería necesariamente al subespacio de códigos válidos.
 Esto facilita la detección de errores, ya que cualquier vector que no pertenezca al subespacio indica
 directamente la presencia de interferencias o corrupción de datos.
@@ -285,12 +285,12 @@ Durante la transmisión inalámbrica, las señales se ven afectadas por ruido el
 interferencias de otros dispositivos, y distorsiones del canal. Como resultado, el receptor no acaba
 obteniendo exactamente el vector transmitido, sino una versión perturbada.
 
-Si el conjunto de señales válidas se modela como un subespacio W del espacio vectorial de las
-señales, la señal recibida se puede interpretar como un vector r que no necesariamente pertenece a
-W. Para recuperar el mensaje, el sistema de recepción busca el vector de W más cercano a r.
+Si el conjunto de señales válidas se modela como un subespacio $W$ del espacio vectorial de las
+señales, la señal recibida se puede interpretar como un vector $r$ que no necesariamente pertenece a
+$W$. Para recuperar el mensaje, el sistema de recepción busca el vector de $W$ más cercano a $r$.
 
-Esto equivale a calcular la proyección ortogonal de r sobre W. Este procedimiento minimiza la
-distancia entre r y una señal válida, eliminando en gran medida la componente del ruido.
+Esto equivale a calcular la proyección ortogonal de $r$ sobre $W$. Este procedimiento minimiza la
+distancia entre $r$ y una señal válida, eliminando en gran medida la componente del ruido.
 
 
 
@@ -302,11 +302,11 @@ La dimensión del subespacio de códigos válidos tiene una interpretación dire
 Si el subespacio tiene dimensión $k$, estará generado por $k$ vectores linealmente independientes y
 \centerline{puede representar $2^k$ mensajes distintos (en el caso binario, claro).}
 
-Sin embargo, los mensajes transmitidos suelen representarse mediante vectores de dimensión n,
-tal que n>k. La diferencia entre n y k representa la redundancia introducida de manera intencionada.
+Sin embargo, los mensajes transmitidos suelen representarse mediante vectores de dimensión $n$,
+tal que $n>k$. La diferencia entre $n$ y $k$ representa la redundancia introducida de manera intencionada.
 
-Entonces, mayor dimensión de k implica mayor cantidad de información transmitida, pero menor
-diferencia entre n y k implica menor capacidad para detectar errores. Es esencial encontrar un
+Entonces, mayor dimensión de $k$ implica mayor cantidad de información transmitida, pero menor
+diferencia entre $n$ y $k$ implica menor capacidad para detectar errores. Es esencial encontrar un
 equilibrio entre ambos factores para mantener el canal eficiente y ser capaces de corregir errores.
 
 \medtitle{2.4 Modelización del canal de transmisión mediante matrices}
@@ -317,16 +317,16 @@ El proceso de transmisión de señal se describe mediante la ecuación
 
 Siendo:
 
-H la matriz del canal, que representa cómo el medio de transmisión transforma la señal
+$H$ la matriz del canal, que representa cómo el medio de transmisión transforma la señal
 
-x es el vector transmitido, con la información ya codificada
+$x$ es el vector transmitido, con la información ya codificada
 
-y es el vector recibido
+$y$ es el vector recibido
 
-n es el vector de ruido añadido durante la transmisión
+$n$ es el vector de ruido añadido durante la transmisión
 
 En la banda de las ondas de radio 2.4GHz, el entorno provoca desvanecimientos, interferencias o
-multitrayectoria, fenómenos que se modelan dentro de H. Cada elemento de H describe cómo una
+multitrayectoria, fenómenos que se modelan dentro de $H$. Cada elemento de $H$ describe cómo una
 componente de la señal afecta a cada componente de la señal recibida. En general, captura las
 características del canal inalámbrico en un instante determinado
 
@@ -336,33 +336,33 @@ características del canal inalámbrico en un instante determinado
 
 \newpage
 \smalltitle{2.4.2 Interpretación del ruido como perturbación vectorial}
-Además de la transformación producida por el canal (H), está el ruido (n), que se añade al producto
-de Hx. Por eso, aun conociendo perfectamente el canal H, 'y' nunca coincidiría exactamente con
-Hx. Se asume que el ruido es un vector aleatorio que sigue una distribución normal, lo que se
+Además de la transformación producida por el canal ($H$), está el ruido ($n$), que se añade al producto
+de $Hx$. Por eso, aun conociendo perfectamente el canal $H$, $y$ nunca coincidiría exactamente con
+$Hx$. Se asume que el ruido es un vector aleatorio que sigue una distribución normal, lo que se
 conoce como ruido gaussiano aditivo o White Gaussian Noise (AWGN).
 
 El AWGN está formado por tres propiedades fundamentales:
 
    1. Additive (Aditivo)
       Que el ruido sea aditivo significa que se suma directamente a la señal transmitida. Eso
-      significa que $y-Hx=n$
+      significa que $y-Hx=n$ \\
    2. Gaussian (Gaussiano)
-      El ruido se denomina gaussiano porque cada componente de n sigue una distribución
+      El ruido se denomina gaussiano porque cada componente de $n$ sigue una distribución
       normal. Esto nos aporta dos propiedades estadísticas importantes: $\mathbb{E}[n]=0$ y $\mathbb{E}[nn^T]=\sigma^2I$.
       Esto implica que las componentes del ruido son linealmente independientes, y que la
-      varianza es la misma en todas las direcciones del espacio vectorial.
+      varianza es la misma en todas las direcciones del espacio vectorial. \\
    3. White (Blanco)
       Proviene de la analogía con la luz blanca, que contiene todas las frecuencias. Significa
       que no hay correlación entre componentes del ruido: $\mathbb{E}[n_m]=0$ si $n\neq m$. Esto
       implica que el ruido no tiene dirección preferente en el espacio vectorial.
 
 Este modelo nos permite plantear el problema como una optimización algebraica, donde hay que
-encontrar el vector cuya transformación Hx esté más cerca del vector y en norma euclídea.
+encontrar el vector cuya transformación $Hx$ esté más cerca del vector $y$ en norma euclídea.
 
 \smalltitle{2.4.3 Condiciones de recuperabilidad de la señal}
 La posibilidad de recuperar correctamente la señal transmitida depende en gran medida de las
-propiedades algebraicas de la matriz del canal. El rango de la matriz H indica cuánta información
-del vector original x se conserva tras la transmisión. Si la matriz tiene rango completo, la
+propiedades algebraicas de la matriz del canal. El rango de la matriz $H$ indica cuánta información
+del vector original $x$ se conserva tras la transmisión. Si la matriz tiene rango completo, la
 transformación conserva toda la información del vector transmitido. En ese caso y en ausencia
 total de ruido, sería posible recuperar $x$ calculando la inversa: \centerline{$x=H^{-1}y$}
 
@@ -380,13 +380,13 @@ se llama autovalor. $Av=\lambda v$, donde $A$ es una matriz cuadrada, $v$ es el 
 el autovalor.
 
 \smalltitle{2.5.2 Interpretación física en sistemas de comunicación}
-Cuando se modela un canal inalámbrico mediante matrices, los autovectores de H representan
+Cuando se modela un canal inalámbrico mediante matrices, los autovectores de $H$ representan
 direcciones privilegiadas de propagación de la señal. Son combinaciones específicas de señales
 que atraviesan el canal sin cambiar su estructura direccional.
 
 En entornos con múltiples trayectorias de propagación, el canal puede descomponerse en varios
 modos independientes de transmisión. Cada uno de estos modos corresponde a un autovector de
-H, mientras que el autovalor indica cuánto se amplifica la señal en esa dirección.
+$H$, mientras que el autovalor indica cuánto se amplifica la señal en esa dirección.
 
 \smalltitle{2.5.3 Autovalores y la estabilidad de la transmisión}
 Los autovalores ofrecen información directa sobre la estabilidad del canal de transmisión. Si el
@@ -448,40 +448,30 @@ demostrándolo matemáticamente paso a paso.
 \newpage
 \medtitle{3.2 Ejemplo práctico paso a paso}
 Suponiendo que un dispositivo envía este vector como mensaje binario (teniendo en cuenta
-que pertenece a $\mathbb{F}_2^2$):
-                                  m = (1,0)
+que pertenece a $\mathbb{F}_2^2$):\\
+                                  \centerline{$m = (1,0)$}
 
 \smalltitle{3.2.1 Codificación del vector mediante matrices generadoras}
 Sea la matriz generadora:
 
-G = $\begin{pmatrix}1 & 0 \\ 0 & 1 \\ 1 & 1\end{pmatrix}$
+\centerline{$G = \begin{pmatrix}1 & 0 \\ 0 & 1 \\ 1 & 1\end{pmatrix}\in\mathbb{F}_2^{3\times 2}$}
 
-
-
-                                          $\in\mathbb{F}_2^{3\times 2}$
-
-                                         c=Gm
+\centerline{$c=Gm$}
 
 Realizando el producto matricial:
 
-c=
-
-$\begin{pmatrix}1 & 0 \\ 0 & 1 \\ 1 & 1\end{pmatrix}$
-
-$\begin{pmatrix}1 \\ 0\end{pmatrix}$
-
-
-
-\newpage
+\[
+c=Gm=\begin{pmatrix}1 & 0 \\ 0 & 1 \\ 1 & 1\end{pmatrix}
+\begin{pmatrix}1 \\ 0\end{pmatrix}
 =
-
-$\begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix}$
+\begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix}
+\]
 
 
 
 Por tanto, el vector codificado es:
 
-c = $\begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix}$
+\centerline{$c = \begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix}$}
 
 Este vector pertenece a un subespacio vectorial de $\mathbb{F}_2^3$, generado por las columnas de la
 matriz G. Dicho subespacio es la base para la detección y corrección de errores de esta
@@ -495,7 +485,7 @@ vectorial continuo.
 Si se consideran n muestras de la señal transmitida, esta puede representarse como un
 vector:
 
-                                      $s=(s_1,s_2,s_3)\in\mathbb{R}^3$
+\centerline{$s=(s_1,s_2,s_3)\in\mathbb{R}^3$}
 
 En este caso, se adopta un modelo simplificado en el que la modulación viene dada por una
 matriz identidad:
@@ -503,12 +493,12 @@ matriz identidad:
 \centerline{$s=Mc,\; M=I$}
 
 
-
+\newpage
 Por tanto:
 
 
-\newpage
-s = $\begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix}$
+
+\centerline{$s = \begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix}$}
 
 
 
@@ -517,63 +507,44 @@ Durante la transmisión, la señal atraviesa un canal inalámbrico que introduce
 debido a interferencias, ruido y otros fenómenos físicos. Este proceso puede modelizarse
 mediante la ecuación:
 
-                                        r = Hs + n
+\centerline{$r = Hs + n$}
 
 Donde:
 
 $H\in\mathbb{R}^{3\times 3}$ es la matriz del canal,
 
-s es la señal transmitida,
+$s$ es la señal transmitida,
 
-n es un vector de ruido,
+$n$ es un vector de ruido,
 
-r es la señal recibida.
+$r$ es la señal recibida.
 
 En este ejemplo, se considera un canal sin distorsión estructural, por lo que:
 
-                                            $H=I$
+\centerline{$H=I$}
 
 Sin embargo, se introduce un vector de ruido:
 
-$n = \begin{pmatrix}0 \\ 1 \\ 0\end{pmatrix}$
+\centerline{$n = \begin{pmatrix}0 \\ 1 \\ 0\end{pmatrix}$}
 
 
 
-
-
-
-\newpage
 Por lo tanto, la señal recibida es:
 
-r = $\begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix}$
-
-+
-
-$\begin{pmatrix}0 \\ 1 \\ 0\end{pmatrix}$
-
-=
-
-$\begin{pmatrix}1 \\ 1 \\ 1\end{pmatrix}$
+\[
+r = \begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix}
++ \begin{pmatrix}0 \\ 1 \\ 0\end{pmatrix}
+= \begin{pmatrix}1 \\ 1 \\ 1\end{pmatrix}
+\]
 
 Este resultado refleja la señal alterada debido al ruido anteriormente mencionado del canal.
-
+\newpage
 \smalltitle{3.2.4 Detección de errores mediante distancia de Hamming}
 Para analizar las diferencias entre la señal transmitida y la recibida, se emplea distancia de
 Hamming (mencionado en 2.1.3).
 
 Sean:
-
-
-
-
-
-
-\newpage
-c = $\begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix}$
-
-,
-
-r = $\begin{pmatrix}1 \\ 1 \\ 1\end{pmatrix}$
+$c = \begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix},\quad r = \begin{pmatrix}1 \\ 1 \\ 1\end{pmatrix}$
 
 La distancia de Hamming viene dada por: $d_H(c,r)=1$.
 
@@ -589,7 +560,7 @@ mediante matrices de control de paridad. Sea la matriz:
 
 Para que un vector c sea válido, debe cumplirse:
 
-                                           $Hc = 0$
+\centerline{$Hc = 0$}
 
 Sin embargo, al recibir r, se calcula:
 
@@ -597,50 +568,33 @@ Sin embargo, al recibir r, se calcula:
 
 
 
-\newpage
-\centerline{$Hr=$}
+\centerline{$Hr=\begin{pmatrix}1&1&1\end{pmatrix}\begin{pmatrix}1 \\ 1 \\ 1\end{pmatrix}=3\equiv 1\;(\mathrm{mod}\;2)$}
 
-$\begin{pmatrix}1&1&1\end{pmatrix}$
-
-$\begin{pmatrix}1 \\ 1 \\ 1\end{pmatrix}$
-
-$=3\equiv 1\;(\mathrm{mod}\;2)$
-
-Dado que: $Hr\neq 0$.
-
-Se concluye que el vector recibido no pertenece al subespacio de códigos válidos, es decir,
+Dado que: $Hr\neq 0$, se concluye que el vector recibido no pertenece al subespacio de códigos válidos, es decir,
 se confirma la presencia de un error.
-
+\newpage
 \smalltitle{3.2.6 Correción mediante proyección en subespacios}
 El conjunto de palabras válidas del código forma un subespacio vectorial $W\subseteq\mathbb{F}_2^3$. La señal
 recibida r puede no pertenecer al subespacio debido al ruido, por lo tanto, ahora se debe
 encontrar el vector $c\in W$ más cercano a $r$.
 
 En este caso, los vectores válidos son:
-
-$\begin{pmatrix}0 \\ 0 \\ 0\end{pmatrix}$, \quad
-
-$\begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix}$, \quad
-
-$\begin{pmatrix}0 \\ 1 \\ 1\end{pmatrix}$, \quad
-
-$\begin{pmatrix}1 \\ 1 \\ 0\end{pmatrix}$
-
+$\begin{pmatrix}0 \\ 0 \\ 0\end{pmatrix},\quad \begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix},\quad \begin{pmatrix}0 \\ 1 \\ 1\end{pmatrix},\quad \begin{pmatrix}1 \\ 1 \\ 0\end{pmatrix}$
 Se calcula la distancia de Hamming entre r y cada uno de ellos, obteniendo que el vector
 más cercano es:
 
-$\hat{c}=\begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix}$
+\centerline{$\hat{c}=\begin{pmatrix}1 \\ 0 \\ 1\end{pmatrix}$}
 
 \smalltitle{3.2.7 Recuperación del mensaje original}
 
 Finalmente, una vez obtenido el vector corregido c, se procede a recuperar el mensaje
 orginal m. Dado que:
 
-                                          \centerline{$c=Gm$}
+\centerline{$c=Gm$}
 
 Y que ya se conoce la matriz generadora, se puede determinar definitivamente que:
 
-m = $\begin{pmatrix}1 \\ 0\end{pmatrix}$
+\centerline{$m = \begin{pmatrix}1 \\ 0\end{pmatrix}$}
 
 El resultado coincide con el mensaje inicial, por lo tanto, se puede confirmar que el proceso
 el proceso de codificación y correción de errores descrito en este apartado es correcto.
