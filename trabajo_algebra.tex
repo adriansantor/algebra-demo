@@ -17,24 +17,19 @@
 \ttfamily
 \obeylines
 \catcode`\^^M=5\relax
-\newcommand{\bigtitle}[1]{\par\begin{center}\normalfont\Huge\bfseries #1\end{center}\par}
-\newcommand{\medtitle}[1]{\par\begin{center}\normalfont\Large\bfseries #1\end{center}\par}
-\newcommand{\smalltitle}[1]{{\par\noindent\normalfont\large\bfseries #1\par}}
+\setcounter{tocdepth}{3}
+\renewcommand{\contentsname}{ÍNDICE}
+\newcommand{\bigtitle}[1]{\par\addcontentsline{toc}{section}{#1}\begin{center}\normalfont\Huge\bfseries #1\end{center}\par}
+\newcommand{\medtitle}[1]{\par\addcontentsline{toc}{subsection}{#1}\begin{center}\normalfont\Large\bfseries #1\end{center}\par}
+\newcommand{\smalltitle}[1]{{\par\addcontentsline{toc}{subsubsection}{#1}\noindent\normalfont\large\bfseries #1\par}}
 (portada)
 \newpage
 
-                   ÍNDICE
-
-1. Introducción y justificación
-2. Desarrollo y fundamento Matemático
-3. Aplicación Práctica
-4. Conclusiones
-5. Referencias
-
-
-
-
-
+{\normalfont\rmfamily
+\begin{center}\Huge\bfseries ÍNDICE\end{center}
+\vspace{0.5em}
+\tableofcontents
+}
 
 \newpage
 \bigtitle{1. Introducción y justificación}
@@ -179,7 +174,7 @@ En el caso de $\mathbb{R}^n$, se usa la distancia euclídea, que mide la distanc
 \medtitle{2.2 Uso de matrices en la codificación y transformación de señales}
 \smalltitle{2.2.1 Representación matricial de transformaciones lineales}
 Una matriz es una estructura rectangular de elementos pertenecientes a un cuerpo o campo.
-Formalmente, una matriz se define como: $A\in\mathbb{R}^{m\times n}$.
+Formalmente, una matriz se define como:$A\in\mathbb{R}^{m\times n}$
 
 Una transformación lineal entre espacios vectoriales puede representarse mediante una matriz.
 Siendo $A$ una matriz $m\times n$, la transformación de un vector de datos se expresa como $y = Ax$,
@@ -243,8 +238,8 @@ a interferencias.
 
 \smalltitle{2.2.4 Matrices de control de paridad}
 Además de la matriz G, los códigos utilizan una matriz de control, $H$. Si '$c$' es una palabra válida
-   generada por el código, debe cumplir $Hc=0$, donde el vector 0 indica que no hay
-                                        inconsistencias.
+generada por el código, debe cumplir $Hc=0$, donde el vector 0 indica que no hay
+inconsistencias.
 
 Cuando el receptor Bluetooth recibe un vector '$r$', calcula $Hr$. Si el resultado es distinto de 0, se
 denomina síndrome del error, y proporciona información sobre la posición del posible error en el
@@ -302,7 +297,7 @@ distancia entre $r$ y una señal válida, eliminando en gran medida la component
 \smalltitle{2.3.4 Dimensión del subespacio y capacidad del canal}
 La dimensión del subespacio de códigos válidos tiene una interpretación directa en este contexto.
 Si el subespacio tiene dimensión $k$, estará generado por $k$ vectores linealmente independientes y
-\centerline{puede representar $2^k$ mensajes distintos (en el caso binario, claro).}
+puede representar $2^k$ mensajes distintos (en el caso binario, claro).
 
 Sin embargo, los mensajes transmitidos suelen representarse mediante vectores de dimensión $n$,
 tal que $n>k$. La diferencia entre $n$ y $k$ representa la redundancia introducida de manera intencionada.
@@ -348,11 +343,13 @@ El AWGN está formado por tres propiedades fundamentales:
    1. Additive (Aditivo)
       Que el ruido sea aditivo significa que se suma directamente a la señal transmitida. Eso
       significa que $y-Hx=n$ \\
+
    2. Gaussian (Gaussiano)
       El ruido se denomina gaussiano porque cada componente de $n$ sigue una distribución
       normal. Esto nos aporta dos propiedades estadísticas importantes: $\mathbb{E}[n]=0$ y $\mathbb{E}[nn^T]=\sigma^2I$.
       Esto implica que las componentes del ruido son linealmente independientes, y que la
       varianza es la misma en todas las direcciones del espacio vectorial. \\
+
    3. White (Blanco)
       Proviene de la analogía con la luz blanca, que contiene todas las frecuencias. Significa
       que no hay correlación entre componentes del ruido: $\mathbb{E}[n_m]=0$ si $n\neq m$. Esto
@@ -409,100 +406,6 @@ conjunto de subcanales independientes. Esto permite diseñar algoritmos de trans
 asignen más potencia a los modos con mayor autovalor.
 
 
-\newpage
-\medtitle{2.6 Fundamentos algebraicos del cifrado y criptoanálisis}
-
-El sistema Bluetooth implementa mecanismos criptográficos que, en su nivel más fundamental,
-no son más que aplicaciones avanzadas de transformaciones matemáticas sobre espacios
-vectoriales finitos. En este apartado exploraremos cómo se utiliza el álgebra para cifrar la
-información y cómo las vulnerabilidades matemáticas de estos modelos pueden ser explotadas
-mediante técnicas de criptoanálisis.
-
-\smalltitle{2.6.1. El cifrado E0 y la generación de secuencias pseudoaleatorias}
-
-El sistema Bluetooth garantiza la confidencialidad de la información mediante protocolos
-criptográficos. En el estándar Bluetooth clásico, la encriptación de los datos se realiza a
-través de un cifrado de flujo (\textit{stream cipher}) denominado E0.
-
-El núcleo matemático de este cifrado no es más que una extensión de los conceptos de
-espacios vectoriales sobre campos finitos $\mathbb{F}_2$ que hemos visto en apartados anteriores. El
-algoritmo genera una secuencia de bits pseudoaleatoria (\textit{keystream}) que se suma (mediante
-la operación XOR, equivalente a la suma vectorial en $\mathbb{F}_2$) con el mensaje original para
-cifrarlo.
-
-Para generar esta secuencia, el E0 utiliza cuatro Registros de Desplazamiento con
-Retroalimentación Lineal (LFSRs) de diferentes longitudes. En un instante $t$, las salidas de
-estos cuatro registros forman un vector
-\centerline{$\mathbf{x}_t = (x_t^1,\, x_t^2,\, x_t^3,\, x_t^4)$}
-donde cada $x_t^i \in \{0,1\}$. El estado inicial conjunto de estos cuatro registros (128 bits en
-total) constituye la clave secreta de la transmisión.
-
-\smalltitle{2.6.2. Modelización matemática de la máquina de estados (SCLB)}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.75\textwidth]{image.png}
-\end{figure}
-
-Los bits del vector $\mathbf{x}_t$ no se usan directamente, sino que se introducen en una máquina de
-estados finitos denominada \textit{Summation Combiner Logic and Blend} (SCLB). Esta máquina posee
-4 bits de memoria organizados en el estado actual $\mathbf{c}_t = (c_t^1, c_t^0)$ y el estado anterior
-$\mathbf{c}_{t-1} = (c_{t-1}^1, c_{t-1}^0)$.
-
-El funcionamiento matemático del SCLB se define mediante las siguientes operaciones:
-
-\textbf{1. Suma aritmética (El componente no lineal):} El sistema calcula la suma en los números
-enteros (no en módulo 2) de las salidas de los registros:
-
-\centerline{$y_t = \displaystyle\sum_{i=1}^{4} x_t^i$}
-
-Como estamos sumando 4 bits, el resultado puede ser $y_t \in \{0, 1, 2, 3, 4\}$.
-
-\textbf{2. Generación del bit de cifrado (Operación lineal en $\mathbb{F}_2$):} El bit de salida $z_t$, que
-formará parte del \textit{keystream} definitivo, se calcula mediante la suma módulo 2 (XOR) de
-los bits de los registros y el bit menos significativo del estado actual:
-
-\centerline{$z_t = x_t^1 \oplus x_t^2 \oplus x_t^3 \oplus x_t^4 \oplus c_t^0$}
-
-\textbf{3. Actualización del estado (Mezcla y bijecciones lineales):} Para calcular el siguiente
-estado, el sistema determina un valor intermedio $s_{t+1}$ que actúa como un acarreo
-(\textit{carry}), basándose en la suma entera anterior:
-
-\centerline{$s_{t+1} = \begin{bmatrix} s_{t+1}^0 & s_{t+1}^1 \end{bmatrix} = \left\lfloor \dfrac{y_t + c_t}{2} \right\rfloor \in \{0, 1, 2, 3\}$}
-
-Finalmente, el nuevo estado $\mathbf{c}_{t+1}$ se obtiene aplicando transformaciones algebraicas:
-
-\centerline{$\mathbf{c}_{t+1} = \begin{bmatrix} c_{t+1}^0 & c_{t+1}^1 \end{bmatrix} = s_{t+1} \oplus T_1[\mathbf{c}_t] \oplus T_2[\mathbf{c}_{t-1}]$}
-
-Es fundamental destacar que $T_1$ y $T_2$ son bijecciones lineales sobre el campo de Galois
-$\mathrm{GF}(4)$ (equivalente a nuestro espacio $\mathbb{F}_2^2$). Al ser transformaciones lineales, en la
-implementación real se construyen mediante simples operaciones matriciales (puertas lógicas
-XOR), conectando de nuevo este sistema criptográfico con los fundamentos del álgebra lineal.
-
-\smalltitle{2.6.3. Criptoanálisis como un problema de sistemas de ecuaciones lineales}
-
-El objetivo de un ataque criptográfico contra este sistema es recuperar el vector inicial de
-128 bits. Investigaciones recientes demuestran que vulnerar esta seguridad se reduce a un
-problema algebraico a gran escala.
-
-Si un atacante logra interceptar el bit $z_t$, puede usar la ecuación de generación del bit de
-cifrado para plantear hipótesis sobre el estado $c_t^0$. Aislando las incógnitas (los bits de
-los registros), la ecuación queda expresada como una ecuación lineal booleana clásica:
-
-\centerline{$x_t^1 \oplus x_t^2 \oplus x_t^3 \oplus x_t^4 = c_t^0 \oplus z_t$}
-
-El ataque consiste en aplicar un proceso de iteración hacia atrás (\textit{backtracking}). Gracias a
-que el valor intermedio $y_t$ depende solo de la suma entera y no del valor individual de cada
-bit, el atacante puede descartar ramas enteras de posibilidades. A medida que avanza, va
-recolectando ecuaciones lineales de la forma descrita arriba.
-
-Cuando el atacante logra formar un sistema de 128 ecuaciones lineales booleanas linealmente
-independientes, puede resolverlo utilizando matrices y operaciones de álgebra lineal estándar.
-La solución a ese enorme sistema matricial revelará el vector inicial de los registros, rompiendo
-por completo la clave secreta del Bluetooth.
-
-
-
 
 \newpage
 \bigtitle{3. Aplicación práctica}
@@ -533,16 +436,11 @@ interrupciones considerables.
 A continuación, realizaremos una demostración similar a la del ejemplo explicado en este punto,
 demostrándolo matemáticamente paso a paso.
 
-
-
-
-
-
 \newpage
 \medtitle{3.2 Ejemplo práctico paso a paso}
 Suponiendo que un dispositivo envía este vector como mensaje binario (teniendo en cuenta
 que pertenece a $\mathbb{F}_2^2$):\\
-                                  \centerline{$m = (1,0)$}
+                                  \centerline{$m = \begin{pmatrix}1 \\ 0\end{pmatrix}$}
 
 \smalltitle{3.2.1 Codificación del vector mediante matrices generadoras}
 Sea la matriz generadora:
@@ -566,7 +464,6 @@ Este vector pertenece a un subespacio vectorial de $\mathbb{F}_2^3$, generado po
 matriz G. Dicho subespacio es la base para la detección y corrección de errores de esta
 comunicación.
 
-\newpage
 \smalltitle{3.2.2 Modelización de la señal transmitida}
 Una vez codificada la información, esta debe transformarse en una señal física. Este
 proceso (modulación) puede modelizarse como una transformación lineal en un espacio
@@ -582,8 +479,6 @@ matriz identidad:
 
 \centerline{$s=Mc,\; M=I$}
 
-
-\newpage
 Por tanto:
 
 
@@ -695,6 +590,13 @@ el proceso de codificación y correción de errores descrito en este apartado es
 
 \newpage
 \bigtitle{4. Conclusión}
+Este trabajo nos ha permitido conocer y analizar los fundamentos matemáticos que forman y dan lugar a el estándar de comunicación inalámbrica Bluetooth a partir de bases matemáticas 
+
+A lo largo del desarrollo, se ha podido ver cómo la información digital y las señales de radio pueden ser modeladas con precisión mediante vectores en espacios multidimensionales y cuerpos finitos. En primer lugar, se ha detallado cómo estas señales se estructuran y protegen antes de su emisión, empleando matrices generadoras y de control de paridad para introducir redundancia y anticiparse a los errores de transmisión. Posteriormente, se ha abordado la naturaleza física de la radiofrecuencia mediante la modelización del canal inalámbrico; aquí, el uso de matrices de transformación ha permitido abstraer los efectos del ruido y la multitrayectoria, demostrando que el receptor logra recuperar el mensaje original calculando proyecciones ortogonales sobre subespacios de códigos válidos. Finalmente, el análisis de los protocolos de seguridad ha revelado que la protección de los datos frente a interceptaciones externas depende directamente de operaciones sobre cuerpos de Galois, donde la robustez del cifrado E0 se sostiene sobre la complejidad de resolver sistemas masivos de ecuaciones lineales booleanas. 
+
+Hoy en día la tecnología Bluethooth es una de las tecnologías más usadas a nivel mundial que sigue evolucionando progresivamente, uno de los objetivos es poder reforzar la seguridad de las claves incluyendo algoritmos criptograficos-cuanticos lo que dará lugar a ecuaciones matemáticas más complejas y sofisticadas cada vez mas  
+
+Este trabajo es un claro ejemplo de lo importante y fundamental que es el algebra, Debido a que ofrece un lenguaje universal y carece de ambigüedad proporcionando así las bases de cualquier rama tecnológica 
 \newpage
 \bigtitle{5. Referencias}
 IACR ePrint Archive. (2022). An algebraic attack to the Bluetooth stream cipher E0 (Report 2022/016). \url{https://eprint.iacr.org/2022/016.pdf}
